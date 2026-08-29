@@ -97,9 +97,11 @@ function escapeHtml(s) {
 }
 function observeReveal(el) { el.classList.add('reveal'); io.observe(el); }
 
-// ---- Team, driven by data/team.json (edit via /admin CMS) ----
+// ---- Team: HTML in about.html is the crawlable source of truth (kept in
+// sync with data/team.json by hand). Only hydrate from JSON if the markup
+// was ever left empty — e.g. a future CMS-only workflow. ----
 const teamGrid = document.getElementById('team-grid');
-if (teamGrid) {
+if (teamGrid && !teamGrid.children.length) {
   fetch('data/team.json').then(r => r.json()).then(({ members }) => {
     teamGrid.innerHTML = members.map(m => `
       <div class="card">
@@ -112,11 +114,14 @@ if (teamGrid) {
       </div>`).join('');
     [...teamGrid.children].forEach(observeReveal);
   }).catch(() => {});
+} else if (teamGrid) {
+  [...teamGrid.children].forEach(observeReveal);
 }
 
-// ---- Work case studies, driven by data/work.json (edit via /admin CMS) ----
+// ---- Work: same pattern — work.html markup is the source of truth,
+// data/work.json only fills in if the container was left empty. ----
 const workScroller = document.getElementById('work-scroller');
-if (workScroller) {
+if (workScroller && !workScroller.children.length) {
   fetch('data/work.json').then(r => r.json()).then(({ projects }) => {
     workScroller.innerHTML = projects.map((p, i) => `
       <div class="card work-card">
@@ -131,6 +136,8 @@ if (workScroller) {
       </div>`).join('');
     [...workScroller.children].forEach(observeReveal);
   }).catch(() => {});
+} else if (workScroller) {
+  [...workScroller.children].forEach(observeReveal);
 }
 
 // ---- Count-up stats ----
