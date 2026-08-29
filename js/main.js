@@ -32,6 +32,22 @@ window.addEventListener('load', () => {
   setTimeout(() => { loader.classList.add('hidden'); reveal(); }, 3300);
 });
 
+// ---- Page-transition fade: fade in on arrival, fade out before internal nav ----
+requestAnimationFrame(() => document.body.classList.add('page-in'));
+
+document.addEventListener('click', (e) => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest('a[href]');
+  if (!a || a.target === '_blank') return;
+  const href = a.getAttribute('href');
+  if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || /^https?:\/\//i.test(href)) return;
+  if (!/\.html(?:[?#]|$)/i.test(href)) return;
+  e.preventDefault();
+  document.body.classList.remove('page-in');
+  document.body.classList.add('page-out');
+  setTimeout(() => { window.location.href = href; }, prefersReduced ? 0 : 260);
+});
+
 // ---- Mobile menu ----
 const menuBtn = document.querySelector('.menu-btn');
 const navLinks = document.querySelector('nav.links');

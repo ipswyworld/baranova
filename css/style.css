@@ -279,3 +279,12 @@ body.loaded .hero .container>*,body.loaded .page-hero .container>*{opacity:1;tra
   .hero-orbit{display:none}
   .scroll-progress{display:none}
 }
+
+/* ---------- Page-transition fade ---------- */
+body{transition:opacity .32s var(--ease)}
+html.skip-splash body{opacity:0}
+body.page-in{opacity:1}
+body.page-out{opacity:0}
+@media(prefers-reduced-motion:reduce){
+  body,html.skip-splash body{opacity:1!important;transition:none}
+}
