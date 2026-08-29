@@ -33,7 +33,14 @@ window.addEventListener('load', () => {
 });
 
 // ---- Page-transition fade: fade in on arrival, fade out before internal nav ----
-requestAnimationFrame(() => document.body.classList.add('page-in'));
+// NOTE: deliberately NOT requestAnimationFrame — rAF callbacks are suspended
+// while a document isn't actively rendering (backgrounded tab, momentary
+// paint-holding during navigation, etc.), which left pages permanently
+// stuck at opacity:0 until a manual reload. setTimeout always fires.
+setTimeout(() => document.body.classList.add('page-in'), 16);
+// Hard safety net: whatever happens above, force the page visible well
+// before a human would perceive it as "broken".
+setTimeout(() => { document.body.style.opacity = ''; document.body.classList.add('page-in'); }, 1200);
 
 document.addEventListener('click', (e) => {
   if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
