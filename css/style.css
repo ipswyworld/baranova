@@ -311,9 +311,11 @@ body.loaded .hero .container>*,body.loaded .page-hero .container>*{opacity:1;tra
 
 /* ---------- Page-transition fade ---------- */
 body{transition:opacity .32s var(--ease)}
-html.skip-splash body{opacity:0}
-body.page-in{opacity:1}
+/* :not(.page-in) keeps this rule from ever out-specificity-ing the reveal:
+   once .page-in is added, this selector simply stops matching, instead of
+   the two rules fighting on specificity (which .page-in was losing). */
+html.skip-splash body:not(.page-in){opacity:0}
 body.page-out{opacity:0}
 @media(prefers-reduced-motion:reduce){
-  body,html.skip-splash body{opacity:1!important;transition:none}
+  body{opacity:1!important;transition:none}
 }
