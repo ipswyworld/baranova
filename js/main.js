@@ -38,9 +38,11 @@ window.addEventListener('load', () => {
 // paint-holding during navigation, etc.), which left pages permanently
 // stuck at opacity:0 until a manual reload. setTimeout always fires.
 setTimeout(() => document.body.classList.add('page-in'), 16);
-// Hard safety net: whatever happens above, force the page visible well
-// before a human would perceive it as "broken".
-setTimeout(() => { document.body.style.opacity = ''; document.body.classList.add('page-in'); }, 1200);
+// Hard safety net: an inline style always wins over an external stylesheet
+// rule regardless of selector specificity, so this is the final word no
+// matter what CSS is doing. Guarantees the page is visible well before a
+// human would perceive it as "broken".
+setTimeout(() => { document.body.classList.add('page-in'); document.body.style.opacity = '1'; }, 700);
 
 document.addEventListener('click', (e) => {
   if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
