@@ -76,6 +76,47 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function observeReveal(el) { el.classList.add('reveal'); io.observe(el); }
+
+// ---- Team, driven by data/team.json (edit via /admin CMS) ----
+const teamGrid = document.getElementById('team-grid');
+if (teamGrid) {
+  fetch('data/team.json').then(r => r.json()).then(({ members }) => {
+    teamGrid.innerHTML = members.map(m => `
+      <div class="card">
+        <div class="icon-badge">${m.photo
+          ? `<img src="${escapeHtml(m.photo)}" alt="${escapeHtml(m.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:14px">`
+          : escapeHtml(m.initials || m.name.slice(0, 2).toUpperCase())}</div>
+        <h3 style="font-size:18px;margin-bottom:8px">${escapeHtml(m.name)}</h3>
+        <p style="color:var(--gold-light);font-size:14px;margin-bottom:10px">${escapeHtml(m.role)}</p>
+        <p>${escapeHtml(m.bio)}</p>
+      </div>`).join('');
+    [...teamGrid.children].forEach(observeReveal);
+  }).catch(() => {});
+}
+
+// ---- Work case studies, driven by data/work.json (edit via /admin CMS) ----
+const workScroller = document.getElementById('work-scroller');
+if (workScroller) {
+  fetch('data/work.json').then(r => r.json()).then(({ projects }) => {
+    workScroller.innerHTML = projects.map((p, i) => `
+      <div class="card work-card">
+        <span class="num">${String(i + 1).padStart(2, '0')}</span>
+        <span class="pill">${escapeHtml(p.category)}</span>
+        <h3 style="font-size:24px;margin:6px 0 12px">${escapeHtml(p.title)}</h3>
+        <p style="margin-bottom:20px">${escapeHtml(p.description)}</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+          ${(p.tags || []).map(t => `<span class="pill">${escapeHtml(t)}</span>`).join('')}
+        </div>
+        <a href="contact.html" class="btn btn-ghost">Discuss a similar build →</a>
+      </div>`).join('');
+    [...workScroller.children].forEach(observeReveal);
+  }).catch(() => {});
+}
+
 // ---- Count-up stats ----
 document.querySelectorAll('.stat h3').forEach(el => {
   const m = el.textContent.trim().match(/^(\d+)(.*)$/);

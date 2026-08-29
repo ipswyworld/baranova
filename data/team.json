@@ -1,0 +1,25 @@
+{
+  "members": [
+    {
+      "name": "Joseph Kariuki",
+      "role": "Founder & Engineering Lead",
+      "bio": "Full-stack systems and data engineering, with a focus on architecture that survives contact with real users.",
+      "initials": "JK",
+      "photo": ""
+    },
+    {
+      "name": "Mary Maina",
+      "role": "Product & Design Lead",
+      "bio": "Turns ambiguous briefs into interfaces people actually enjoy using — from research through polish.",
+      "initials": "MM",
+      "photo": ""
+    },
+    {
+      "name": "Hassler Juma",
+      "role": "Data & Strategy Lead",
+      "bio": "Builds the pipelines and models behind the dashboards — and the advisory that decides what to build next.",
+      "initials": "HJ",
+      "photo": ""
+    }
+  ]
+}

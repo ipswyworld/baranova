@@ -1,0 +1,28 @@
+{
+  "projects": [
+    {
+      "category": "Fintech",
+      "title": "Real-time reconciliation platform",
+      "description": "Rebuilt a manual, spreadsheet-driven reconciliation process into an automated pipeline processing 500K+ daily transactions with sub-minute discrepancy alerts.",
+      "tags": ["Data Engineering", "Automation"]
+    },
+    {
+      "category": "Mobility",
+      "title": "Transit network analytics suite",
+      "description": "Built a route optimization and ridership dashboard used by planners to redesign a metro bus network — cutting average commute time by double digits.",
+      "tags": ["Applied AI", "Dashboards"]
+    },
+    {
+      "category": "Healthcare",
+      "title": "Field data collection system",
+      "description": "Delivered an offline-first mobile data collection tool for community health surveys across low-connectivity regions, syncing securely once online.",
+      "tags": ["Mobile", "Offline-first"]
+    },
+    {
+      "category": "SaaS",
+      "title": "Multi-tenant platform rebuild",
+      "description": "Migrated a monolithic legacy app to a modern, multi-tenant architecture without a single hour of customer-facing downtime.",
+      "tags": ["Modernization", "Cloud"]
+    }
+  ]
+}
