@@ -1,0 +1,54 @@
+# NOTE: login is not functional yet. GitHub's OAuth flow requires a
+# small server-side proxy to exchange the auth code for a token — that
+# piece hasn't been deployed. This file lets you preview the admin UI;
+# "Login with GitHub" will fail until base_url below points at a real
+# OAuth proxy (Cloudflare Workers, Vercel, Render, Netlify, or self-hosted
+# all work — see the netlify-cms-github-oauth-provider project).
+backend:
+  name: github
+  repo: ipswyworld/ouronova
+  branch: master
+  base_url: https://example-not-yet-deployed.invalid
+  auth_endpoint: auth
+
+publish_mode: simple
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "team"
+    label: "Team"
+    description: "Shows on the About page — 'Meet the team'."
+    files:
+      - file: "data/team.json"
+        label: "Team Members"
+        name: "team"
+        fields:
+          - label: "Members"
+            name: "members"
+            widget: "list"
+            summary: "{{name}} — {{role}}"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Role", name: "role", widget: "string" }
+              - { label: "Bio", name: "bio", widget: "text" }
+              - { label: "Initials (used if no photo)", name: "initials", widget: "string", required: false }
+              - { label: "Photo", name: "photo", widget: "image", required: false }
+
+  - name: "work"
+    label: "Work"
+    description: "Case studies shown on the Work page, in order."
+    files:
+      - file: "data/work.json"
+        label: "Case Studies"
+        name: "work"
+        fields:
+          - label: "Projects"
+            name: "projects"
+            widget: "list"
+            summary: "{{title}} — {{category}}"
+            fields:
+              - { label: "Category", name: "category", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Tags", name: "tags", widget: "list" }
