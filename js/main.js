@@ -1,0 +1,144 @@
+/* ============================================================
+   Ouronova — interactions
+   ============================================================ */
+
+const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = matchMedia('(pointer: fine)').matches;
+
+// ---- Inject page chrome (progress bar + grain overlay) ----
+const progress = document.createElement('div');
+progress.className = 'scroll-progress';
+document.body.appendChild(progress);
+
+const grain = document.createElement('div');
+grain.className = 'grain';
+document.body.appendChild(grain);
+
+const maxScroll = () => document.documentElement.scrollHeight - window.innerHeight;
+
+function updateProgress() {
+  const h = maxScroll();
+  progress.style.transform = `scaleX(${h > 0 ? window.scrollY / h : 0})`;
+}
+
+// ---- Loader: play only on first open / reload (see inline <head> script) ----
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  const reveal = () => document.body.classList.add('loaded');
+  if (!loader || document.documentElement.classList.contains('skip-splash')) {
+    reveal();
+    return;
+  }
+  setTimeout(() => { loader.classList.add('hidden'); reveal(); }, 3300);
+});
+
+// ---- Mobile menu ----
+const menuBtn = document.querySelector('.menu-btn');
+const navLinks = document.querySelector('nav.links');
+if (menuBtn) {
+  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+}
+
+// ---- Header shadow on scroll ----
+const header = document.querySelector('header');
+function updateHeader() {
+  if (header) header.style.boxShadow = window.scrollY > 20 ? '0 8px 30px rgba(0,0,0,.35)' : 'none';
+}
+
+// ---- Hero decorative sun-mark: rotate gently with scroll ----
+const orbit = document.querySelector('.hero-orbit');
+function updateOrbit() {
+  if (orbit) orbit.style.transform = `rotate(${window.scrollY * 0.06}deg)`;
+}
+
+// ---- Master scroll handler ----
+function onScroll() {
+  updateProgress();
+  updateHeader();
+  updateOrbit();
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', updateProgress);
+onScroll();
+
+// ---- Reveal on scroll (with sibling stagger) ----
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const sibs = [...el.parentElement.children].filter(c => c.classList.contains('reveal'));
+    const idx = sibs.indexOf(el);
+    el.style.transitionDelay = (Math.min(Math.max(idx, 0), 5) * 0.08) + 's';
+    el.classList.add('in');
+    io.unobserve(el);
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ---- Count-up stats ----
+document.querySelectorAll('.stat h3').forEach(el => {
+  const m = el.textContent.trim().match(/^(\d+)(.*)$/);
+  if (!m) return;
+  const end = +m[1], suffix = m[2];
+  el.textContent = '0' + suffix;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      obs.unobserve(el);
+      if (prefersReduced) { el.textContent = end + suffix; return; }
+      const dur = 1400, t0 = performance.now();
+      (function tick(t) {
+        const p = Math.min((t - t0) / dur, 1);
+        el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * end) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  }, { threshold: 0.6 });
+  obs.observe(el);
+});
+
+// ---- Smooth inertia scroll (desktop wheel only) ----
+if (!prefersReduced && finePointer) {
+  let target = window.scrollY;
+  let current = target;
+  let running = false;
+
+  function clamp(v) { return Math.max(0, Math.min(v, maxScroll())); }
+
+  function raf() {
+    current += (target - current) * 0.14;
+    if (Math.abs(target - current) < 0.4) { current = target; running = false; }
+    window.scrollTo(0, current);
+    if (running) requestAnimationFrame(raf);
+  }
+  function start() { if (!running) { running = true; requestAnimationFrame(raf); } }
+
+  window.addEventListener('wheel', (e) => {
+    // Let native handle zoom and the horizontal Work scroller
+    if (e.ctrlKey || (e.target.closest && e.target.closest('.work-scroller'))) return;
+    e.preventDefault();
+    target = clamp(target + e.deltaY);
+    start();
+  }, { passive: false });
+
+  // Resync when scroll comes from elsewhere (keyboard, anchors, resize)
+  window.addEventListener('scroll', () => {
+    if (!running) { target = current = window.scrollY; }
+  }, { passive: true });
+  window.addEventListener('resize', () => { target = clamp(target); });
+}
+
+// ---- Contact form (demo) ----
+const form = document.getElementById('contact-form');
+if (form) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const original = btn.textContent;
+    btn.textContent = 'Message sent';
+    btn.style.pointerEvents = 'none';
+    form.reset();
+    setTimeout(() => { btn.textContent = original; btn.style.pointerEvents = 'auto'; }, 3000);
+  });
+}
