@@ -140,16 +140,18 @@ if (workScroller && !workScroller.children.length) {
   [...workScroller.children].forEach(observeReveal);
 }
 
-// ---- Count-up stats ----
+// ---- Count-up stats (+ fade in the icon above each number) ----
 document.querySelectorAll('.stat h3').forEach(el => {
   const m = el.textContent.trim().match(/^(\d+)(.*)$/);
   if (!m) return;
   const end = +m[1], suffix = m[2];
   el.textContent = '0' + suffix;
+  const statEl = el.closest('.stat');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       obs.unobserve(el);
+      if (statEl) statEl.classList.add('in');
       if (prefersReduced) { el.textContent = end + suffix; return; }
       const dur = 1400, t0 = performance.now();
       (function tick(t) {
