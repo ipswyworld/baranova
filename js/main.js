@@ -57,6 +57,15 @@ document.addEventListener('click', (e) => {
   setTimeout(() => { window.location.href = href; }, prefersReduced ? 0 : 260);
 });
 
+// ---- Team cards: click to expand for more about that person ----
+document.querySelectorAll('.team-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.closest('.team-card');
+    const open = card.classList.toggle('expanded');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+});
+
 // ---- Mobile menu ----
 const menuBtn = document.querySelector('.menu-btn');
 const navLinks = document.querySelector('nav.links');

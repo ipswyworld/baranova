@@ -319,3 +319,31 @@ body.page-out{opacity:0}
 @media(prefers-reduced-motion:reduce){
   body{opacity:1!important;transition:none}
 }
+
+/* ---------- Team cards: click to expand ---------- */
+.team-card{padding:0;overflow:hidden}
+.team-toggle{
+  display:block;width:100%;padding:36px;background:none;border:none;text-align:left;
+  font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+.team-toggle:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.team-more{
+  display:inline-flex;align-items:center;gap:6px;margin-top:16px;
+  color:var(--gold);font-size:13.5px;font-weight:600;
+}
+.team-more svg{width:16px;height:16px;transition:transform .35s var(--ease)}
+.team-card.expanded .team-more svg{transform:rotate(180deg)}
+.team-card.expanded .icon-badge{transform:rotate(-6deg) scale(1.08);background:rgba(201,162,39,.22)}
+
+.team-expand{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.team-card.expanded .team-expand{grid-template-rows:1fr}
+.team-expand-inner{overflow:hidden;min-height:0;padding:0 36px}
+.team-card.expanded .team-expand-inner{padding-bottom:36px}
+.team-expand-inner>*:first-child{margin-top:0}
+.team-expand .pill{margin-right:8px;margin-bottom:0}
+.team-expand .quote{color:var(--muted)}
+.team-expand .quote span{color:var(--gold-light)}
+@media(prefers-reduced-motion:reduce){
+  .team-expand{transition:none}
+  .team-more svg{transition:none}
+}

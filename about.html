@@ -53,7 +53,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=5">
+<link rel="stylesheet" href="css/style.css?v=7">
 <script>(function(){try{var n=performance.getEntriesByType('navigation')[0];var reload=n&&n.type==='reload';var first=!sessionStorage.getItem('ouronova-splash');sessionStorage.setItem('ouronova-splash','1');if(!(reload||first))document.documentElement.classList.add('skip-splash');}catch(e){}})();</script>
 </head>
 <body>
@@ -143,23 +143,50 @@
       <p>We stay intentionally lean — every engagement is staffed by people who've shipped this exact kind of problem before.</p>
     </div>
     <div class="grid grid-3" id="team-grid">
-      <div class="card">
-        <div class="icon-badge">JK</div>
-        <h3 style="font-size:18px;margin-bottom:8px">Joseph Kariuki</h3>
-        <p style="color:var(--gold-light);font-size:14px;margin-bottom:10px">Founder &amp; Engineering Lead</p>
-        <p>Full-stack systems and data engineering, with a focus on architecture that survives contact with real users.</p>
+      <div class="card team-card">
+        <button class="team-toggle" aria-expanded="false">
+          <div class="icon-badge">JK</div>
+          <h3 style="font-size:18px;margin-bottom:8px">Joseph Kariuki</h3>
+          <p style="color:var(--gold-light);font-size:14px;margin-bottom:10px">Founder &amp; Engineering Lead</p>
+          <p>Full-stack systems and data engineering, with a focus on architecture that survives contact with real users.</p>
+          <span class="team-more">More about Joseph <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="team-expand"><div class="team-expand-inner">
+          <div class="divider" style="margin:18px 0"></div>
+          <span class="pill">Systems Architecture</span> <span class="pill">Data Engineering</span>
+          <p style="margin-top:16px">Before Ouronova, Joseph spent years building backend systems and data pipelines for teams that couldn't afford downtime. He believes the best architecture is the one nobody notices — because it just works.</p>
+          <p class="quote" style="font-size:16px;margin-top:16px">"Good code is a letter to <span>the person who inherits it.</span>"</p>
+        </div></div>
       </div>
-      <div class="card">
-        <div class="icon-badge">MM</div>
-        <h3 style="font-size:18px;margin-bottom:8px">Mary Maina</h3>
-        <p style="color:var(--gold-light);font-size:14px;margin-bottom:10px">Product &amp; Design Lead</p>
-        <p>Turns ambiguous briefs into interfaces people actually enjoy using — from research through polish.</p>
+      <div class="card team-card">
+        <button class="team-toggle" aria-expanded="false">
+          <div class="icon-badge">MM</div>
+          <h3 style="font-size:18px;margin-bottom:8px">Mary Maina</h3>
+          <p style="color:var(--gold-light);font-size:14px;margin-bottom:10px">Product &amp; Design Lead</p>
+          <p>Turns ambiguous briefs into interfaces people actually enjoy using — from research through polish.</p>
+          <span class="team-more">More about Mary <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="team-expand"><div class="team-expand-inner">
+          <div class="divider" style="margin:18px 0"></div>
+          <span class="pill">Product Design</span> <span class="pill">UX Research</span>
+          <p style="margin-top:16px">Mary studies how people actually use software before deciding how it should look. She's led design across fintech and consumer products, always starting from the friction point, not the mockup.</p>
+          <p class="quote" style="font-size:16px;margin-top:16px">"If users need a tutorial, <span>the design already failed.</span>"</p>
+        </div></div>
       </div>
-      <div class="card">
-        <div class="icon-badge">HJ</div>
-        <h3 style="font-size:18px;margin-bottom:8px">Hassler Juma</h3>
-        <p style="color:var(--gold-light);font-size:14px;margin-bottom:10px">Data &amp; Strategy Lead</p>
-        <p>Builds the pipelines and models behind the dashboards — and the advisory that decides what to build next.</p>
+      <div class="card team-card">
+        <button class="team-toggle" aria-expanded="false">
+          <div class="icon-badge">HJ</div>
+          <h3 style="font-size:18px;margin-bottom:8px">Hassler Juma</h3>
+          <p style="color:var(--gold-light);font-size:14px;margin-bottom:10px">Data &amp; Strategy Lead</p>
+          <p>Builds the pipelines and models behind the dashboards — and the advisory that decides what to build next.</p>
+          <span class="team-more">More about Hassler <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="team-expand"><div class="team-expand-inner">
+          <div class="divider" style="margin:18px 0"></div>
+          <span class="pill">Data Strategy</span> <span class="pill">Applied AI</span>
+          <p style="margin-top:16px">Hassler turns messy data into decisions leadership can actually act on — and the advisory conversations that follow. He's allergic to dashboards nobody opens.</p>
+          <p class="quote" style="font-size:16px;margin-top:16px">"A dashboard nobody checks <span>is just decoration.</span>"</p>
+        </div></div>
       </div>
     </div>
   </div>
@@ -194,6 +221,6 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=6"></script>
+<script src="js/main.js?v=7"></script>
 </body>
 </html>
