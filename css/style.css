@@ -137,11 +137,15 @@ nav.links a.active::after{content:'';position:absolute;left:0;right:0;bottom:-6p
 }
 .seam-rule::before{top:-4px}
 .seam-rule::after{bottom:-4px;background:var(--burgundy);border:2px solid var(--accent-light)}
-/* Draws itself in on scroll, so the stitch reads as an action, not an ornament */
-.seam-rule{transform-origin:top;transform:scaleY(0);transition:transform .7s var(--ease)}
-.seam-rule.in{transform:scaleY(1)}
+/* Draws itself in on scroll, so the stitch reads as an action, not an ornament.
+   Visible is the DEFAULT: JS opts an element into the animation by adding
+   .armed, and removes it to play. If JS never runs, or transitions are
+   suspended (hidden tab, headless renderer), the seam simply shows rather
+   than silently collapsing to nothing. */
+.seam-rule{transform-origin:top;transition:transform .7s var(--ease)}
+.seam-rule.armed{transform:scaleY(0)}
 @media(prefers-reduced-motion:reduce){
-  .seam-rule{transform:none;transition:none}
+  .seam-rule,.seam-rule.armed{transform:none;transition:none}
 }
 
 /* ---------- Hero ---------- */

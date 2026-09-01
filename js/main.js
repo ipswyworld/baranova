@@ -128,16 +128,21 @@ function observeReveal(el) { el.classList.add('reveal'); io.observe(el); }
 // scaleY the seam animates on. Decorative and aria-hidden, but still given a
 // safety net so it can never sit invisible if the observer never fires.
 const seamRules = document.querySelectorAll('.seam-rule');
-if (seamRules.length) {
+if (seamRules.length && !prefersReduced && 'IntersectionObserver' in window) {
+  // Arm (collapse) only once we know we can play it back. The stylesheet
+  // default is visible, so any path that skips this leaves the seam drawn.
+  seamRules.forEach(el => el.classList.add('armed'));
+  const disarm = el => el.classList.remove('armed');
   const seamIo = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
-      e.target.classList.add('in');
+      disarm(e.target);
       seamIo.unobserve(e.target);
     });
   }, { threshold: 0.4 });
   seamRules.forEach(el => seamIo.observe(el));
-  setTimeout(() => seamRules.forEach(el => el.classList.add('in')), 2500);
+  // Never let it sit collapsed if the observer never fires.
+  setTimeout(() => seamRules.forEach(disarm), 2500);
 }
 
 // ---- Team: HTML in about.html is the crawlable source of truth (kept in
