@@ -1,5 +1,5 @@
 /* ============================================================
-   Ouronova — interactions
+   Baranova — interactions
    ============================================================ */
 
 const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -29,7 +29,7 @@ window.addEventListener('load', () => {
     reveal();
     return;
   }
-  setTimeout(() => { loader.classList.add('hidden'); reveal(); }, 3300);
+  setTimeout(() => { loader.classList.add('hidden'); reveal(); }, 2850);
 });
 
 // ---- Page-transition fade: fade in on arrival, fade out before internal nav ----
@@ -127,7 +127,7 @@ if (teamGrid && !teamGrid.children.length) {
           ? `<img src="${escapeHtml(m.photo)}" alt="${escapeHtml(m.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:14px">`
           : escapeHtml(m.initials || m.name.slice(0, 2).toUpperCase())}</div>
         <h3 style="font-size:18px;margin-bottom:8px">${escapeHtml(m.name)}</h3>
-        <p style="color:var(--gold-light);font-size:14px;margin-bottom:10px">${escapeHtml(m.role)}</p>
+        <p style="color:var(--accent-light);font-size:14px;margin-bottom:10px">${escapeHtml(m.role)}</p>
         <p>${escapeHtml(m.bio)}</p>
       </div>`).join('');
     [...teamGrid.children].forEach(observeReveal);

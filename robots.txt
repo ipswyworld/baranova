@@ -1,9 +1,9 @@
-# Ouronova — robots.txt
+# Baranova robots.txt
 # General crawlers: fully allowed.
 User-agent: *
 Allow: /
 
-# AI answer-engine / assistant crawlers — explicitly allowed so Ouronova
+# AI answer-engine / assistant crawlers: explicitly allowed so Baranova
 # can be found and cited by AI search and chat tools (GEO).
 User-agent: GPTBot
 Allow: /
@@ -38,4 +38,4 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-Sitemap: https://ipswyworld.github.io/ouronova/sitemap.xml
+Sitemap: https://ipswyworld.github.io/baranova/sitemap.xml
