@@ -1,12 +1,12 @@
 # NOTE: login is not functional yet. GitHub's OAuth flow requires a
-# small server-side proxy to exchange the auth code for a token — that
+# small server-side proxy to exchange the auth code for a token. That
 # piece hasn't been deployed. This file lets you preview the admin UI;
 # "Login with GitHub" will fail until base_url below points at a real
 # OAuth proxy (Cloudflare Workers, Vercel, Render, Netlify, or self-hosted
-# all work — see the netlify-cms-github-oauth-provider project).
+# all work; see the netlify-cms-github-oauth-provider project).
 backend:
   name: github
-  repo: ipswyworld/ouronova
+  repo: ipswyworld/baranova
   branch: master
   base_url: https://example-not-yet-deployed.invalid
   auth_endpoint: auth
@@ -18,7 +18,7 @@ public_folder: "/assets/uploads"
 collections:
   - name: "team"
     label: "Team"
-    description: "Shows on the About page — 'Meet the team'."
+    description: "Shows on the About page, 'Meet the team'."
     files:
       - file: "data/team.json"
         label: "Team Members"
@@ -27,7 +27,7 @@ collections:
           - label: "Members"
             name: "members"
             widget: "list"
-            summary: "{{name}} — {{role}}"
+            summary: "{{name}} · {{role}}"
             fields:
               - { label: "Name", name: "name", widget: "string" }
               - { label: "Role", name: "role", widget: "string" }
@@ -46,7 +46,7 @@ collections:
           - label: "Projects"
             name: "projects"
             widget: "list"
-            summary: "{{title}} — {{category}}"
+            summary: "{{title}} · {{category}}"
             fields:
               - { label: "Category", name: "category", widget: "string" }
               - { label: "Title", name: "title", widget: "string" }

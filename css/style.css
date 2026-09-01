@@ -105,16 +105,29 @@ header{
 .brand .seam-mini{display:inline-block;width:3px;height:.72em;margin:0 3px;border-radius:2px;
   background:linear-gradient(var(--accent-light),var(--burgundy));vertical-align:-.08em}
 
-/* ---------- The seam: reusable brand divider ----------
-   The stitched join between BARA and NOVA in the wordmark, reused
-   deliberately anywhere the idea of "two things joined" fits: between
-   a section's eyebrow and heading, or as a full-width section break. */
+nav.links{display:flex;gap:38px}
+nav.links a{font-size:14.5px;font-weight:500;color:var(--muted);position:relative;padding:4px 0;transition:color .25s}
+nav.links a:hover,nav.links a.active{color:var(--accent-light)}
+nav.links a.active::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--accent)}
+.menu-btn{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+.menu-btn span{width:24px;height:2px;background:var(--cream)}
+@media(max-width:900px){
+  nav.links{position:fixed;top:70px;left:0;right:0;background:var(--burgundy-deep);flex-direction:column;padding:24px 32px;gap:20px;transform:translateY(-130%);transition:transform .35s var(--ease);border-bottom:1px solid rgba(197,123,60,.2)}
+  nav.links.open{transform:translateY(0)}
+  .menu-btn{display:flex}
+}
+
+/* ---------- The seam: the wordmark's stitch, reused as a real component ----------
+   The join between BARA and NOVA is the brand's own device, so it earns a
+   place anywhere the page genuinely means "two things joined": inline in the
+   lockup (.seam-mini), inline in prose (.seam), or as a vertical section
+   break where one chapter is stitched to the next (.seam-rule). */
 .seam{
   display:inline-block;width:4px;height:1em;margin:0 8px;border-radius:2px;
   background:linear-gradient(var(--accent-light),var(--burgundy));vertical-align:-.12em;
 }
 .seam-rule{
-  position:relative;height:40px;margin:0 auto;width:2px;
+  position:relative;height:44px;width:2px;margin:0 auto;
   background:linear-gradient(var(--accent-light),var(--accent) 45%,var(--burgundy));
   border-radius:2px;
 }
@@ -124,19 +137,11 @@ header{
 }
 .seam-rule::before{top:-4px}
 .seam-rule::after{bottom:-4px;background:var(--burgundy);border:2px solid var(--accent-light)}
-nav.links{display:flex;gap:38px}
-nav.links a{font-size:14.5px;font-weight:500;color:var(--muted);position:relative;padding:4px 0;transition:color .25s}
-nav.links a:hover,nav.links a.active{color:var(--accent-light)}
-nav.links a.active::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--accent)}
-.navcta{border:1px solid var(--accent);color:var(--accent-light);padding:9px 20px;border-radius:999px;font-size:14px;font-weight:500;transition:all .25s}
-.navcta:hover{background:var(--accent);color:var(--ink)}
-.menu-btn{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
-.menu-btn span{width:24px;height:2px;background:var(--cream)}
-@media(max-width:900px){
-  nav.links{position:fixed;top:70px;left:0;right:0;background:var(--burgundy-deep);flex-direction:column;padding:24px 32px;gap:20px;transform:translateY(-130%);transition:transform .35s var(--ease);border-bottom:1px solid rgba(197,123,60,.2)}
-  nav.links.open{transform:translateY(0)}
-  .navcta{display:none}
-  .menu-btn{display:flex}
+/* Draws itself in on scroll, so the stitch reads as an action, not an ornament */
+.seam-rule{transform-origin:top;transform:scaleY(0);transition:transform .7s var(--ease)}
+.seam-rule.in{transform:scaleY(1)}
+@media(prefers-reduced-motion:reduce){
+  .seam-rule{transform:none;transition:none}
 }
 
 /* ---------- Hero ---------- */

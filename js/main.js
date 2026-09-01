@@ -70,8 +70,16 @@ document.querySelectorAll('.team-toggle').forEach(btn => {
 const menuBtn = document.querySelector('.menu-btn');
 const navLinks = document.querySelector('nav.links');
 if (menuBtn) {
-  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+  const setMenu = (open) => {
+    navLinks.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+  };
+  menuBtn.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  // Escape closes the menu and returns focus to the trigger
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) { setMenu(false); menuBtn.focus(); }
+  });
 }
 
 // ---- Header shadow on scroll ----
@@ -114,6 +122,23 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 function observeReveal(el) { el.classList.add('reveal'); io.observe(el); }
+
+// ---- Seam rules: draw themselves in on scroll. Kept off the shared .reveal
+// observer on purpose: .reveal sets its own transform and would clobber the
+// scaleY the seam animates on. Decorative and aria-hidden, but still given a
+// safety net so it can never sit invisible if the observer never fires.
+const seamRules = document.querySelectorAll('.seam-rule');
+if (seamRules.length) {
+  const seamIo = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      seamIo.unobserve(e.target);
+    });
+  }, { threshold: 0.4 });
+  seamRules.forEach(el => seamIo.observe(el));
+  setTimeout(() => seamRules.forEach(el => el.classList.add('in')), 2500);
+}
 
 // ---- Team: HTML in about.html is the crawlable source of truth (kept in
 // sync with data/team.json by hand). Only hydrate from JSON if the markup
